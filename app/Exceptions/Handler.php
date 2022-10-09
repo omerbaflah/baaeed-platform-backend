@@ -7,6 +7,8 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ExceptionResponseHandler;
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
