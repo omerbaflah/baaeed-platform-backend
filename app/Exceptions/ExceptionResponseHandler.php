@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -20,6 +21,7 @@ trait ExceptionResponseHandler
         return match (true)
         {
             $this->isNotFoundHttpException($e) => $this->notFoundHttpEndpoint(),
+            $this->isModelNotFoundException($e) => $this->modelNotFound(),
         };
     }
 
@@ -40,5 +42,26 @@ trait ExceptionResponseHandler
     protected function notFoundHttpEndpoint(int $statusCode = 404)
     {
         return sendErrorResponse(__('exceptions.route_not_found'), null, $statusCode);
+    }
+
+    /**
+     * Determines if the given exception is an Eloquent model not found.
+     *
+     * @param Throwable $e
+     * @return bool
+     */
+    protected function isModelNotFoundException(Throwable $e): bool
+    {
+        return $e instanceof ModelNotFoundException;
+    }
+
+    /**
+     * Returns json response for Eloquent model not found exception.
+     *
+     * @param int $statusCode
+     */
+    protected function modelNotFound(int $statusCode = 404)
+    {
+        return sendErrorResponse(__('exceptions.record_not_found'), null, $statusCode);
     }
 }
