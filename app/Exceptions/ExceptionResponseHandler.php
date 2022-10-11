@@ -29,6 +29,7 @@ trait ExceptionResponseHandler
             $this->isValidationException($e) => $this->failedValidation($e),
             $this->isAuthorizationException($e) => $this->forbidden(),
             $this->isUnauthorizedException($e) => $this->unauthorized(),
+            default => $this->internalServerError()
         };
     }
 
@@ -131,5 +132,15 @@ trait ExceptionResponseHandler
     protected function failedValidation($e, int $statusCode = 422)
     {
         return sendErrorResponse(__('messages.validation_error'), null, $statusCode, $e->errors());
+    }
+
+    /**
+     * Returns json response for generic bad request.
+     *
+     * @param int $statusCode
+     */
+    protected function internalServerError(int $statusCode = 500)
+    {
+        return sendErrorResponse(__('exceptions.bad_request'), null, $statusCode);
     }
 }
