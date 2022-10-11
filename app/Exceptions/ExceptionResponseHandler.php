@@ -6,6 +6,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Throwable;
@@ -25,6 +26,7 @@ trait ExceptionResponseHandler
         {
             $this->isNotFoundHttpException($e) => $this->notFoundHttpEndpoint(),
             $this->isModelNotFoundException($e) => $this->modelNotFound(),
+            $this->isValidationException($e) => $this->failedValidation($e),
             $this->isAuthorizationException($e) => $this->forbidden(),
             $this->isUnauthorizedException($e) => $this->unauthorized(),
         };
@@ -108,5 +110,26 @@ trait ExceptionResponseHandler
     protected function unauthorized(int $statusCode = 401)
     {
         return sendErrorResponse(__('exceptions.login_required'), null, $statusCode);
+    }
+
+    /**
+     * Determines if the given exception is a validation exception.
+     *
+     * @param Throwable $e
+     */
+    protected function isValidationException(Throwable $e): bool
+    {
+        return $e instanceof ValidationException;
+    }
+
+    /**
+     * Returns json response for validation errors exception.
+     *
+     * @param $e
+     * @param int $statusCode
+     */
+    protected function failedValidation($e, int $statusCode = 422)
+    {
+        return sendErrorResponse(__('messages.validation_error'), null, $statusCode, $e->errors());
     }
 }
