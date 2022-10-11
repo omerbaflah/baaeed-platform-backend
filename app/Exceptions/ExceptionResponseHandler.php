@@ -3,9 +3,11 @@
 namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Throwable;
 
 trait ExceptionResponseHandler
@@ -24,6 +26,7 @@ trait ExceptionResponseHandler
             $this->isNotFoundHttpException($e) => $this->notFoundHttpEndpoint(),
             $this->isModelNotFoundException($e) => $this->modelNotFound(),
             $this->isAuthorizationException($e) => $this->forbidden(),
+            $this->isUnauthorizedException($e) => $this->unauthorized(),
         };
     }
 
@@ -87,4 +90,23 @@ trait ExceptionResponseHandler
         return sendErrorResponse(__('exceptions.forbidden'), null, $statusCode);
     }
 
+    /**
+     * Determines if the given exception is an unauthorized http or authentication exception.
+     *
+     * @param Throwable $e
+     */
+    protected function isUnauthorizedException(Throwable $e): bool
+    {
+        return $e instanceof UnauthorizedHttpException || $e instanceof AuthenticationException;
+    }
+
+    /**
+     * Determines if the given exception is an unauthorized http or authentication exception.
+     *
+     * @param int $statusCode
+     */
+    protected function unauthorized(int $statusCode = 401)
+    {
+        return sendErrorResponse(__('exceptions.login_required'), null, $statusCode);
+    }
 }
