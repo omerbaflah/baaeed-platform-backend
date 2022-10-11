@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -22,6 +23,7 @@ trait ExceptionResponseHandler
         {
             $this->isNotFoundHttpException($e) => $this->notFoundHttpEndpoint(),
             $this->isModelNotFoundException($e) => $this->modelNotFound(),
+            $this->isAuthorizationException($e) => $this->forbidden(),
         };
     }
 
@@ -64,4 +66,25 @@ trait ExceptionResponseHandler
     {
         return sendErrorResponse(__('exceptions.record_not_found'), null, $statusCode);
     }
+
+    /**
+     * Determines if the given exception is an authorization or unauthorized exception.
+     *
+     * @param Throwable $e
+     */
+    protected function isAuthorizationException(Throwable $e): bool
+    {
+        return $e instanceof AuthorizationException;
+    }
+
+    /**
+     * Returns json response for forbidden exception.
+     *
+     * @param int $statusCode
+     */
+    protected function forbidden(int $statusCode = 403)
+    {
+        return sendErrorResponse(__('exceptions.forbidden'), null, $statusCode);
+    }
+
 }
