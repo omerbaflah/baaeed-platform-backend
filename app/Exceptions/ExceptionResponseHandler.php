@@ -69,7 +69,7 @@ trait ExceptionResponseHandler
      *
      * @param int $statusCode
      */
-    protected function modelNotFound(int $statusCode = 404)
+    protected function modelNotFound(int $statusCode = 404): JsonResponse
     {
         return sendErrorResponse(__('exceptions.record_not_found'), null, $statusCode);
     }
@@ -89,7 +89,7 @@ trait ExceptionResponseHandler
      *
      * @param int $statusCode
      */
-    protected function forbidden(int $statusCode = 403)
+    protected function forbidden(int $statusCode = 403): JsonResponse
     {
         return sendErrorResponse(__('exceptions.forbidden'), null, $statusCode);
     }
