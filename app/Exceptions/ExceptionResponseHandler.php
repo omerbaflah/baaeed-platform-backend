@@ -40,7 +40,7 @@ trait ExceptionResponseHandler
      * @param Throwable $e
      * @return bool
      */
-    protected function isNotFoundHttpException(Throwable $e)
+    protected function isNotFoundHttpException(Throwable $e): bool
     {
         return $e instanceof NotFoundHttpException;
     }
@@ -48,7 +48,7 @@ trait ExceptionResponseHandler
     /**
      * Returns json response for http route not found exception.
      */
-    protected function notFoundHttpEndpoint(int $statusCode = 404)
+    protected function notFoundHttpEndpoint(int $statusCode = 404): JsonResponse
     {
         return sendErrorResponse(__('exceptions.route_not_found'), null, $statusCode);
     }
