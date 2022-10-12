@@ -109,7 +109,7 @@ trait ExceptionResponseHandler
      *
      * @param int $statusCode
      */
-    protected function unauthorized(int $statusCode = 401)
+    protected function unauthorized(int $statusCode = 401): JsonResponse
     {
         return sendErrorResponse(__('exceptions.login_required'), null, $statusCode);
     }
@@ -130,7 +130,7 @@ trait ExceptionResponseHandler
      * @param $e
      * @param int $statusCode
      */
-    protected function failedValidation($e, int $statusCode = 422)
+    protected function failedValidation($e, int $statusCode = 422): JsonResponse
     {
         return sendErrorResponse(__('messages.validation_error'), null, $statusCode, $e->errors());
     }
@@ -140,7 +140,7 @@ trait ExceptionResponseHandler
      *
      * @param int $statusCode
      */
-    protected function internalServerError(int $statusCode = 500)
+    protected function internalServerError(int $statusCode = 500): JsonResponse
     {
         return sendErrorResponse(__('exceptions.bad_request'), null, $statusCode);
     }
