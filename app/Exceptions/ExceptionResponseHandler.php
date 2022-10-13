@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -19,9 +20,9 @@ trait ExceptionResponseHandler
      *
      * @param Request $request
      * @param Throwable $e
-     * @return JsonResponse
+     * @return Response|JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
-    protected function getJsonResponseForException(Request $request, Throwable $e): JsonResponse
+    protected function convertExceptionToJsonResponse(Request $request, Throwable $e): JsonResponse|Response|\Symfony\Component\HttpFoundation\Response
     {
         return match (true)
         {
