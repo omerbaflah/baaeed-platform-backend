@@ -81,6 +81,7 @@ trait ExceptionResponseHandler
      * Determines if the given exception is an authorization or unauthorized exception.
      *
      * @param Throwable $e
+     * @return bool
      */
     protected function isAuthorizationException(Throwable $e): bool
     {
@@ -91,6 +92,7 @@ trait ExceptionResponseHandler
      * Returns json response for forbidden exception.
      *
      * @param int $statusCode
+     * @return JsonResponse
      */
     protected function forbidden(int $statusCode = 403): JsonResponse
     {
@@ -101,6 +103,7 @@ trait ExceptionResponseHandler
      * Determines if the given exception is an unauthorized http or authentication exception.
      *
      * @param Throwable $e
+     * @return bool
      */
     protected function isUnauthorizedException(Throwable $e): bool
     {
