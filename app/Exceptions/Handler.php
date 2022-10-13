@@ -3,7 +3,11 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
+use Psr\Log\LogLevel;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -13,7 +17,7 @@ class Handler extends ExceptionHandler
     /**
      * A list of exception types with their corresponding custom log levels.
      *
-     * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
+     * @var array<class-string<Throwable>, LogLevel::*>
      */
     protected $levels = [
         //
@@ -22,7 +26,7 @@ class Handler extends ExceptionHandler
     /**
      * A list of the exception types that are not reported.
      *
-     * @var array<int, class-string<\Throwable>>
+     * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
         //
@@ -54,16 +58,17 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param Throwable $exception
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @param Throwable $e
+     * @return Response|JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e): Response|JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
         if (App::environment('production') || App::environment('staging')) {
-            return $this->getJsonResponseForException($request, $exception);
+            return $this->convertExceptionToJsonResponse($request, $e);
         }
 
-        return parent::render($request, $exception);
+        return parent::render($request, $e);
     }
 }
