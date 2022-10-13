@@ -30,7 +30,6 @@ function sendSuccessResponse($message = 'OK', $data = null, $status_code = 200)
  * @param mixed $message
  * @param null|mixed $data
  * @param mixed $status_code
- * @param null|mixed $errors
  *
  * @return \Illuminate\Http\JsonResponse
  */
