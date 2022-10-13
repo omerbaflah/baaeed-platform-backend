@@ -114,6 +114,7 @@ trait ExceptionResponseHandler
      * Determines if the given exception is an unauthorized http or authentication exception.
      *
      * @param int $statusCode
+     * @return JsonResponse
      */
     protected function unauthorized(int $statusCode = 401): JsonResponse
     {
@@ -140,7 +141,7 @@ trait ExceptionResponseHandler
      */
     protected function failedValidation($e, int $statusCode = 422): JsonResponse
     {
-        return sendErrorResponse(__('messages.validation_error'), null, $statusCode, $e->errors());
+        return sendErrorResponse(__('messages.validation_error'), $e->errors(), $statusCode);
     }
 
     /**
