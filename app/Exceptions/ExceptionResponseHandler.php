@@ -124,6 +124,7 @@ trait ExceptionResponseHandler
      * Determines if the given exception is a validation exception.
      *
      * @param Throwable $e
+     * @return bool
      */
     protected function isValidationException(Throwable $e): bool
     {
@@ -135,6 +136,7 @@ trait ExceptionResponseHandler
      *
      * @param $e
      * @param int $statusCode
+     * @return JsonResponse
      */
     protected function failedValidation($e, int $statusCode = 422): JsonResponse
     {
@@ -145,6 +147,7 @@ trait ExceptionResponseHandler
      * Returns json response for generic bad request.
      *
      * @param int $statusCode
+     * @return JsonResponse
      */
     protected function internalServerError(int $statusCode = 500): JsonResponse
     {
