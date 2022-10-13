@@ -47,6 +47,8 @@ trait ExceptionResponseHandler
 
     /**
      * Returns json response for http route not found exception.
+     * @param int $statusCode
+     * @return JsonResponse
      */
     protected function notFoundHttpEndpoint(int $statusCode = 404): JsonResponse
     {
@@ -68,6 +70,7 @@ trait ExceptionResponseHandler
      * Returns json response for Eloquent model not found exception.
      *
      * @param int $statusCode
+     * @return JsonResponse
      */
     protected function modelNotFound(int $statusCode = 404): JsonResponse
     {
