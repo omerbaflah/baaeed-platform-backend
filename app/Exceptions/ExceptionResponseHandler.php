@@ -53,7 +53,7 @@ trait ExceptionResponseHandler
      */
     protected function notFoundHttpEndpoint(int $statusCode = 404): JsonResponse
     {
-        return sendErrorResponse(__('exceptions.route_not_found'), null, $statusCode);
+        return sendFailedResponse(__('exceptions.route_not_found'), null, $statusCode);
     }
 
     /**
@@ -75,7 +75,7 @@ trait ExceptionResponseHandler
      */
     protected function modelNotFound(int $statusCode = 404): JsonResponse
     {
-        return sendErrorResponse(__('exceptions.record_not_found'), null, $statusCode);
+        return sendFailedResponse(__('exceptions.record_not_found'), null, $statusCode);
     }
 
     /**
@@ -97,7 +97,7 @@ trait ExceptionResponseHandler
      */
     protected function forbidden(int $statusCode = 403): JsonResponse
     {
-        return sendErrorResponse(__('exceptions.forbidden'), null, $statusCode);
+        return sendFailedResponse(__('exceptions.forbidden'), null, $statusCode);
     }
 
     /**
@@ -119,7 +119,7 @@ trait ExceptionResponseHandler
      */
     protected function unauthorized(int $statusCode = 401): JsonResponse
     {
-        return sendErrorResponse(__('exceptions.login_required'), null, $statusCode);
+        return sendFailedResponse(__('exceptions.login_required'), null, $statusCode);
     }
 
     /**
@@ -142,7 +142,7 @@ trait ExceptionResponseHandler
      */
     protected function failedValidation($e, int $statusCode = 422): JsonResponse
     {
-        return sendErrorResponse(__('messages.validation_error'), $e->errors(), $statusCode);
+        return sendFailedResponse(__('messages.validation_error'), $e->errors(), $statusCode);
     }
 
     /**
@@ -153,6 +153,6 @@ trait ExceptionResponseHandler
      */
     protected function internalServerError(int $statusCode = 500): JsonResponse
     {
-        return sendErrorResponse(__('exceptions.bad_request'), null, $statusCode);
+        return sendFailedResponse(__('exceptions.bad_request'), null, $statusCode);
     }
 }
