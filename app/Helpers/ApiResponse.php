@@ -1,15 +1,15 @@
 <?php
 
 /**
- * success response method.
+ * Returns a success HTTP JSON response.
  *
- * @param mixed $message
- * @param null|mixed $data
- * @param mixed $status_code
+ * @param string $message
+ * @param array|null $data
+ * @param int $status_code
  *
- * @return \Illuminate\Http\JsonResponse
+ * @return JsonResponse
  */
-function sendSuccessResponse($message = 'OK', $data = null, $status_code = 200)
+function sendSuccessResponse(string $message = 'OK', array|null $data = null, int $status_code = 200): JsonResponse
 {
     $response = [
         'success' => true,
