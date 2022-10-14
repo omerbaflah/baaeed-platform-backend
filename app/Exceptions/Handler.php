@@ -65,8 +65,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e): Response|JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
-        if (App::environment('production') || App::environment('staging')) {
-            return $this->convertExceptionToJsonResponse($request, $e);
+        if (App::environment('production')) {
+            return $this->convertExceptionToJsonResponse(
+                $request,
+                $e
+            );
         }
 
         return parent::render($request, $e);
