@@ -25,15 +25,15 @@ function sendSuccessResponse(string $message = 'OK', array|null $data = null, in
 }
 
 /**
- * return error response.
+ * Returns a failed HTTP JSON response.
  *
- * @param mixed $message
- * @param null|mixed $data
- * @param mixed $status_code
+ * @param string $message
+ * @param array|null $data
+ * @param int $status_code
  *
- * @return \Illuminate\Http\JsonResponse
+ * @return JsonResponse
  */
-function sendErrorResponse($message = 'Error', $data = null, $status_code = 404)
+function sendFailedResponse(string $message = 'Error', array|null $data = null, int $status_code = 404): JsonResponse
 {
     $response = [
         'success' => false,
